@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ configmap_name }}
+  namespace: {{ item.namespace }}
+  labels:
+    app: kk-payments
+    environment: {{ item.name }}
+    managed-by: ansible
+data:
+  APP_ENV: "{{ item.name }}"
+  DB_HOST: "{{ item.db_host }}"
