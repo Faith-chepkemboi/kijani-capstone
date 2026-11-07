@@ -21,6 +21,7 @@ resource "kubernetes_namespace" "kijani_staging" {
     labels = {
       environment                 = "staging"
       "app.kubernetes.io/part-of" = "kijanikiosk"
+      "managed-by"                = "terraform"
     }
   }
 }
