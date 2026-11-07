@@ -6,5 +6,6 @@ crash.log
 
 # Local secrets, never commit
 *.tfvars
-.envnode_modules/
+.env
+node_modules/
 dist/
