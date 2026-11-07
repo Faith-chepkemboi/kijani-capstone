@@ -1,0 +1,9 @@
+# Terraform local state and provider downloads (state can contain secrets)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Local secrets, never commit
+*.tfvars
+.env

@@ -35,3 +35,14 @@ Every entry uses the eight-field format from the Week 10 capstone guide.
 6. What it got right: Every component from the scope appears, every arrow says what flows across it, and the pipeline steps are numbered 1 to 5 in order.
 7. What it got wrong: The first drafts had overlapping labels, and the staging and production kubectl apply arrows both ended at the cluster edge so you could not tell which went where. The Terraform arrow pointed at the pod instead of the namespace. It also drew the receipt chain from the course pages without checking that the course serverless.yml really wires the functions in that order, so that part is unverified.
 8. What I changed before applying the output: I saved it unchanged as the first version. On Monday I will compare every arrow with the running system and redraw wherever it differs.
+
+## Entry 4: Terraform for the staging namespace
+
+1. Date: 2026-11-07
+2. Tool used: Claude
+3. Task description: Write Terraform that creates the kijani-staging namespace on Minikube.
+4. What was provided to the AI: The scope document and the course folder layout (main.tf, variables.tf, outputs.tf).
+5. What the AI produced: A Kubernetes provider block, one namespace resource with two labels, three variables and one output, plus a .gitignore for Terraform state.
+6. What it got right: terraform validate passed, the plan showed exactly one resource to add, and no secrets are in the code (checklist control 3).
+7. What it got wrong: Running the six-point governance checklist found three gaps. Control 1: it uses the full admin kubeconfig, not a limited account. Control 4: no owner or managed-by label. Control 5: the state is a local file with no remote backend or locking, so there is no shared audit trail.
+8. What I changed before applying the output: I read the plan before applying it. I am adding a managed-by label for control 4. I am recording controls 1 and 5 as known limitations in the README because fixing them needs a real cluster account and a remote state store.
