@@ -1,0 +1,25 @@
+# build stage: compile the TypeScript
+FROM node:18.20.8-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY tsconfig.json ./
+COPY src ./src
+RUN npm run build
+
+# runtime stage: node only, no npm and no compiler
+FROM alpine:3.20 AS production
+RUN apk add --no-cache nodejs
+RUN addgroup -S kijani && adduser -S kijani -G kijani
+WORKDIR /app
+COPY --chown=kijani:kijani package.json ./
+COPY --chown=kijani:kijani --from=builder /app/dist ./dist
+
+ARG APP_VERSION=unknown
+ENV NODE_ENV=production PORT=3001 APP_VERSION=${APP_VERSION}
+
+USER kijani
+EXPOSE 3001
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:3001/health || exit 1
+CMD ["node", "dist/index.js"]
