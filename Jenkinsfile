@@ -48,7 +48,7 @@ pipeline {
         sh '''
           RESPONSE=$(kubectl exec -n kijani-staging deploy/kk-payments -- wget -qO- http://127.0.0.1:3001/health)
           echo "Health response: $RESPONSE"
-          echo "$RESPONSE" | grep -q healthy
+          echo "$RESPONSE" | grep -q '"status":"ok"'
           DB=$(kubectl exec -n kijani-staging deploy/kk-payments -- printenv DB_HOST)
           echo "DB_HOST in staging: $DB"
           [ "$DB" = "db.staging.kijani.internal" ]
