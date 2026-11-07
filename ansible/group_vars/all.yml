@@ -1,0 +1,9 @@
+configmap_name: kk-payments-config
+
+environments:
+  - name: staging
+    namespace: kijani-staging
+    db_host: db.staging.kijani.internal
+  - name: production
+    namespace: default
+    db_host: db.production.kijani.internal

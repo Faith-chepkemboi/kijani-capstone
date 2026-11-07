@@ -1,0 +1,23 @@
+---
+- name: Apply per-environment settings for kk-payments
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Check that each namespace exists
+      ansible.builtin.command: kubectl get namespace {{ item.namespace }}
+      loop: "{{ environments }}"
+      loop_control:
+        label: "{{ item.namespace }}"
+      changed_when: false
+
+    - name: Apply the kk-payments ConfigMap in each environment
+      ansible.builtin.command:
+        cmd: kubectl apply -f -
+        stdin: "{{ lookup('ansible.builtin.template', 'kk-payments-configmap.yaml.j2') }}"
+      loop: "{{ environments }}"
+      loop_control:
+        label: "{{ item.namespace }}"
+      register: apply_result
+      changed_when: "'created' in apply_result.stdout or 'configured' in apply_result.stdout"
