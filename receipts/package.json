@@ -1,0 +1,14 @@
+{
+  "name": "kk-receipts",
+  "version": "1.0.0",
+  "description": "KijaniKiosk local receipt chain",
+  "private": true,
+  "scripts": {
+    "start": "serverless offline start --stage staging"
+  },
+  "devDependencies": {
+    "serverless": "^3.40.0",
+    "serverless-offline": "^13.9.0",
+    "serverless-s3-local": "^0.8.5"
+  }
+}
