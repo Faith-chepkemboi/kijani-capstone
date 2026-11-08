@@ -1,0 +1,55 @@
+service: kk-receipts
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'staging'}
+  region: eu-west-1
+  environment:
+    STAGE: ${self:provider.stage}
+    S3_ENDPOINT: http://localhost:4569
+    PROCESSED_BUCKET: kk-receipts-processed-${self:provider.stage}
+
+plugins:
+  - serverless-s3-local
+  - serverless-offline
+
+custom:
+  s3:
+    address: 0.0.0.0
+    port: 4569
+    directory: /tmp/kijani-s3-local
+    vhostBuckets: false
+
+functions:
+  processReceipt:
+    handler: handlers/processor.handler
+    events:
+      - s3:
+          bucket: kk-payments-receipts-${self:provider.stage}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: receipt-
+            - suffix: .json
+  notifyReceipt:
+    handler: handlers/notifier.handler
+    events:
+      - s3:
+          bucket: kk-receipts-processed-${self:provider.stage}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: processed-
+            - suffix: .json
+
+resources:
+  Resources:
+    ReceiptsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: kk-payments-receipts-${self:provider.stage}
+    ProcessedBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: kk-receipts-processed-${self:provider.stage}
