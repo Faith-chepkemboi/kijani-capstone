@@ -4,6 +4,10 @@ environments:
   - name: staging
     namespace: kijani-staging
     db_host: db.staging.kijani.internal
+    s3_endpoint: "http://host.minikube.internal:4569"
+    receipts_bucket: "kk-payments-receipts-staging"
   - name: production
     namespace: default
     db_host: db.production.kijani.internal
+    s3_endpoint: ""
+    receipts_bucket: ""
