@@ -1,0 +1,7 @@
+checked_at:  2026-11-09T17:42:22Z
+namespace:   kijani-staging
+payments:    3
+errors:      1
+error_rate:  33.3%
+threshold:   20%
+status:      HIGH
