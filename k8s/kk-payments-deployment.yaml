@@ -18,7 +18,7 @@ spec:
         - name: kijani-registry-credentials
       containers:
         - name: kk-payments
-          image: ghcr.io/faith-chepkemboi/kk-payments:1.1.0-2d50c7a
+          image: ghcr.io/faith-chepkemboi/kk-payments:1.1.0-doesnotexist
           ports:
             - containerPort: 3001
           envFrom:
