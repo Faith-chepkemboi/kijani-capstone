@@ -41,7 +41,7 @@ Run from the repository root, in this order.
    ```
    cd terraform
    terraform init
-   terraform apply
+   terraform apply   # type yes when asked
    cd ..
    ```
 3. Create the ConfigMaps in both namespaces:
