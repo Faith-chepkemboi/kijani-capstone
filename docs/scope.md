@@ -11,7 +11,7 @@ Track A (Infrastructure-first)
 - One manifest, two environments: the same kk-payments Deployment file is used in default and kijani-staging, with DB_HOST coming from a different ConfigMap in each.
 - Pipeline: a merge to main makes Jenkins deploy to staging, run a smoke test, then pause for a named approver who must give a reason before production.
 - Monitoring signal: a script reads the kk-payments structured logs and writes an error-rate summary to a file in the repository.
-- Receipt chain: the three Week 10 serverless functions run locally, and kk-payments in staging writes to the kk-payments-receipts-staging bucket to start the chain.
+- Receipt chain: the two receipt functions (processReceipt and notifyReceipt, from Week 10) run locally, and kk-payments in staging writes to the kk-payments-receipts-staging bucket to start the chain.
 
 ## What Is Out of Scope
 - Prometheus installation: I use the log-based error-rate option instead, because it needs no new software and counts the same.
